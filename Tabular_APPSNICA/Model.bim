@@ -1,0 +1,322 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/localhost;APPSNICADW",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "localhost",
+            "database": "APPSNICADW"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "Username": "normin\\Normin",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Aplicaciones",
+        "columns": [
+          {
+            "name": "ID",
+            "dataType": "int64",
+            "sourceColumn": "ID"
+          },
+          {
+            "name": "Nombre",
+            "dataType": "string",
+            "sourceColumn": "Nombre"
+          },
+          {
+            "name": "Calificaciones",
+            "dataType": "double",
+            "sourceColumn": "Calificaciones"
+          },
+          {
+            "name": "Reseñas",
+            "dataType": "int64",
+            "sourceColumn": "Reseñas"
+          },
+          {
+            "name": "Tamaño",
+            "dataType": "string",
+            "sourceColumn": "Tamaño"
+          },
+          {
+            "name": "Tipo",
+            "dataType": "string",
+            "sourceColumn": "Tipo"
+          },
+          {
+            "name": "Precio",
+            "dataType": "double",
+            "sourceColumn": "Precio"
+          },
+          {
+            "name": "CalificacionContenido",
+            "dataType": "string",
+            "sourceColumn": "CalificacionContenido"
+          },
+          {
+            "name": "UltimaActualizacion",
+            "dataType": "dateTime",
+            "sourceColumn": "UltimaActualizacion"
+          },
+          {
+            "name": "VersionActual",
+            "dataType": "string",
+            "sourceColumn": "VersionActual"
+          },
+          {
+            "name": "VersionAndroid",
+            "dataType": "string",
+            "sourceColumn": "VersionAndroid"
+          },
+          {
+            "name": "NombreCategoria",
+            "dataType": "string",
+            "sourceColumn": "NombreCategoria"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;APPSNICADW\",",
+                "    SSAS_Aplicaciones = Source{[Schema=\"SSAS\",Item=\"Aplicaciones\"]}[Data]",
+                "in",
+                "    SSAS_Aplicaciones"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Resena",
+        "columns": [
+          {
+            "name": "ID",
+            "dataType": "int64",
+            "sourceColumn": "ID"
+          },
+          {
+            "name": "IDAPLICACION",
+            "dataType": "int64",
+            "sourceColumn": "IDAPLICACION"
+          },
+          {
+            "name": "IDUSUARIO",
+            "dataType": "int64",
+            "sourceColumn": "IDUSUARIO"
+          },
+          {
+            "name": "Calificacion",
+            "dataType": "double",
+            "sourceColumn": "Calificacion"
+          },
+          {
+            "name": "IDFECHA",
+            "dataType": "int64",
+            "sourceColumn": "IDFECHA"
+          },
+          {
+            "name": "FechaResena",
+            "dataType": "dateTime",
+            "sourceColumn": "FechaResena"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;APPSNICADW\",",
+                "    SSAS_Resena = Source{[Schema=\"SSAS\",Item=\"Resena\"]}[Data]",
+                "in",
+                "    SSAS_Resena"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "ConteoCalificaciones",
+            "expression": " COUNT(Resena[Calificacion])"
+          },
+          {
+            "name": "PromedioCalificacionMes",
+            "expression": " CALCULATE(AVERAGE(Resena[Calificacion]),VALUES(Fecha[MonthName]))"
+          },
+          {
+            "name": "Promedio Calificacion por Categoria",
+            "expression": " CALCULATE(AVERAGE(Resena[Calificacion]),RELATEDTABLE(Resena))"
+          },
+          {
+            "name": "CalificacionPositiva",
+            "expression": " IF(CALCULATE(MAX(Resena[Calificacion])) > 4, MAX(Resena[Calificacion]))"
+          },
+          {
+            "name": "CalificacionEntre3y4",
+            "expression": " CALCULATE ( FIRSTNONBLANK ( Resena[Calificacion], Resena[Calificacion] ), Resena[Calificacion] >= 3 && Resena[Calificacion] <= 4, NOT ISBLANK ( Resena[FechaResena] ) )"
+          }
+        ]
+      },
+      {
+        "name": "Usuarios",
+        "columns": [
+          {
+            "name": "ID",
+            "dataType": "int64",
+            "sourceColumn": "ID"
+          },
+          {
+            "name": "NombreUsuario",
+            "dataType": "string",
+            "sourceColumn": "NombreUsuario"
+          },
+          {
+            "name": "CorreoElectronico",
+            "dataType": "string",
+            "sourceColumn": "CorreoElectronico"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;APPSNICADW\",",
+                "    SSAS_Usuarios = Source{[Schema=\"SSAS\",Item=\"Usuarios\"]}[Data]",
+                "in",
+                "    SSAS_Usuarios"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Fecha",
+        "columns": [
+          {
+            "name": "ID",
+            "dataType": "int64",
+            "sourceColumn": "ID"
+          },
+          {
+            "name": "FullDate",
+            "dataType": "dateTime",
+            "sourceColumn": "FullDate"
+          },
+          {
+            "name": "DAY",
+            "dataType": "int64",
+            "sourceColumn": "DAY"
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sortByColumn": "Month"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year"
+          },
+          {
+            "name": "CUATRIMESTRE",
+            "dataType": "int64",
+            "sourceColumn": "CUATRIMESTRE"
+          },
+          {
+            "name": "WeekOfYear",
+            "dataType": "int64",
+            "sourceColumn": "WeekOfYear"
+          },
+          {
+            "name": "DayOfWeek",
+            "dataType": "int64",
+            "sourceColumn": "DayOfWeek"
+          },
+          {
+            "name": "DayName",
+            "dataType": "string",
+            "sourceColumn": "DayName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;APPSNICADW\",",
+                "    SSAS_Fecha = Source{[Schema=\"SSAS\",Item=\"Fecha\"]}[Data],",
+                "    #\"Filas filtradas\" = Table.SelectRows(SSAS_Fecha, each [FullDate] >= #date(2024, 1, 1))",
+                "in",
+                "    #\"Filas filtradas\""
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "b1e9aae3-ee07-4f8f-92e6-5c5fd0984ace",
+        "fromTable": "Resena",
+        "fromColumn": "IDAPLICACION",
+        "toTable": "Aplicaciones",
+        "toColumn": "ID"
+      },
+      {
+        "name": "04e8f7a6-4c7a-4df3-be3f-b111940d8b0c",
+        "fromTable": "Resena",
+        "fromColumn": "IDUSUARIO",
+        "toTable": "Usuarios",
+        "toColumn": "ID"
+      },
+      {
+        "name": "27c48aa2-34b0-46c0-93fa-3a3e7466b2e8",
+        "fromTable": "Resena",
+        "fromColumn": "IDFECHA",
+        "toTable": "Fecha",
+        "toColumn": "ID"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}

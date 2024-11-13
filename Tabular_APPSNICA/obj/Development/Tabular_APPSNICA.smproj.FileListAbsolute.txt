@@ -1,0 +1,8 @@
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\bin\Model.asdatabase
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\bin\Model.deploymenttargets
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\bin\Model.deploymentoptions
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\obj\Development\Tabular_APPSNICA.smproj.AssemblyReference.cache
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\obj\Development\Tabular_APPSNICA.smproj.CoreCompileInputs.cache
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\obj\Development\Model.asdatabase
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\obj\Development\Model.deploymentoptions
+C:\Users\Normin\OneDrive\Desktop\Tabular_APPSNICA\Tabular_APPSNICA\obj\Development\Model.deploymenttargets
